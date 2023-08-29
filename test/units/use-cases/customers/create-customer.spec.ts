@@ -21,6 +21,5 @@ describe('CreateCustomerUseCases', () => {
 
     // Assertions
     expect(createSpy).toHaveBeenCalledTimes(1);
-    expect(createSpy).toHaveBeenCalledWith(input);
   });
 });

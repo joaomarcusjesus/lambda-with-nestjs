@@ -3,4 +3,5 @@ export const mockHttpCustomer = () => ({
   last_name: 'Doe',
   email: 'johndoe@gmail.com',
   phone: '5583999351425',
+  password: '123',
 });
