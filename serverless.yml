@@ -1,0 +1,52 @@
+service: lambda-customers-api-nestjs
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    CUSTOMER_TABLE: 'customers'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: "*"
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-optimize
+
+resources:
+  Resources:
+    CustomersDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Delete
+      Properties:
+        TableName: ${self:provider.environment.CUSTOMER_TABLE}
+        AttributeDefinitions:
+          -
+            AttributeName: "id"
+            AttributeType: "S"
+        KeySchema:
+          -
+            AttributeName: "id"
+            KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+functions:
+  main:
+    handler: dist/lambda.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

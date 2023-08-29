@@ -1,0 +1,1 @@
+{"version":3,"file":"customer-mock.js","sourceRoot":"","sources":["../../../../../test/mocks/domain/models/customer-mock.ts"],"names":[],"mappings":";;;AAAO,MAAM,YAAY,GAAG,GAAG,EAAE,CAAC,CAAC;IACjC,IAAI,EAAE,MAAM;IACZ,UAAU,EAAE,MAAM;IAClB,SAAS,EAAE,KAAK;IAChB,KAAK,EAAE,mBAAmB;IAC1B,KAAK,EAAE,eAAe;CACvB,CAAC,CAAC;AANU,QAAA,YAAY,gBAMtB"}

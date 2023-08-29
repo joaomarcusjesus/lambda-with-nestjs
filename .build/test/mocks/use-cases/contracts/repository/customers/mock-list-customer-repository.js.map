@@ -1,0 +1,1 @@
+{"version":3,"file":"mock-list-customer-repository.js","sourceRoot":"","sources":["../../../../../../../test/mocks/use-cases/contracts/repository/customers/mock-list-customer-repository.ts"],"names":[],"mappings":";;;AACA,2EAAuE;AAEvE,MAAa,0BAA0B;IACrC,KAAK,CAAC,IAAI,CACR,MAAoC;QAEpC,OAAO,CAAC,IAAA,4BAAY,GAAE,CAAC,CAAC;IAC1B,CAAC;CACF;AAND,gEAMC"}
