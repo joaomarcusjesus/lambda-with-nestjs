@@ -19,7 +19,7 @@ provider:
 
 plugins:
   # - serverless-offline
-  - serverless-plugin-optimize
+  # - serverless-plugin-optimize
 
 resources:
   Resources:
