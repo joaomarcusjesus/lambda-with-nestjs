@@ -19,9 +19,9 @@ async function bootstrap() {
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
-      bearerFormat: 'JWT', // Specify the format of the token (optional)
-      in: 'header', // Specify where the token should be included ('header' or 'query')
-      name: 'Authorization', // Name of the header or query parameter
+      bearerFormat: 'JWT',
+      in: 'header',
+      name: 'Authorization',
       description: 'Enter your JWT token',
     })
     .build();

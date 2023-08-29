@@ -29,9 +29,3 @@ Voce também pode testar o serverless offline :)
 Agora você pode implantar o projeto usando o serverless:
 
 ```serverless deploy```
-
-### Agradecimentos
-
-Gente, obrigado pela oportunidade de aprender novas tecnologias, como o serverless e dyanamodb, foi minha primeira experiencia e gostei muito!
-
-Espero que gostem do projeto, foi bastante divertido.

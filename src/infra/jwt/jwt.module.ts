@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtModule as JwtNestJs, JwtService } from '@nestjs/jwt';
+import { JwtModule as JwtNestJs } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { Jwt } from './jwt.service';
 
