@@ -24,5 +24,5 @@ export const adaptNestRouter: Adapter =
           message: data?.messageClient ?? data?.message,
           error: data?.name,
         };
-    response.status(statusCode).json(json);
+    response?.status(statusCode)?.json(json);
   };

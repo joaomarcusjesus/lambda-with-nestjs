@@ -9,6 +9,7 @@ export class CustomerMapper {
       last_name: entity.last_name,
       email: entity.email,
       phone: entity.phone,
+      password: entity?.password,
     });
   }
 }

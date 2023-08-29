@@ -6,11 +6,12 @@ import {
 } from '../../../../use-cases/contracts/repository';
 import { ListCustomerRepository } from '../../../../use-cases/contracts/repository/list-customer-repository';
 import { CustomerMapper } from '../mappers/customer.mapper';
-import { EntityNotFound, PersistError } from '../helpers/errors';
+import { PersistError } from '../helpers/errors';
 import { v4 as uuidv4 } from 'uuid';
 import { CustomerEntity } from '../entities/customer.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DynamoDbRepository } from '../helpers/repository';
+import { FindByEmailCustomerRepository } from '@/use-cases/contracts/repository/find-by-email-customer-repository';
 
 @Injectable()
 export class DynamodbCustomerRepository
@@ -20,7 +21,8 @@ export class DynamodbCustomerRepository
     FindCustomerRepository,
     CreateCustomerRepository,
     UpdateCustomerRepository,
-    DeleteCustomerRepository
+    DeleteCustomerRepository,
+    FindByEmailCustomerRepository
 {
   public tableName = 'customers';
 
@@ -74,6 +76,34 @@ export class DynamodbCustomerRepository
     }
 
     return CustomerMapper.ToDomain(result?.Item);
+  }
+
+  async findByEmail(
+    input: FindByEmailCustomerRepository.Input,
+  ): Promise<FindByEmailCustomerRepository.Output> {
+    type filter = {
+      FilterExpression?: string;
+      TableName: string;
+      ExpressionAttributeValues?: any;
+    };
+
+    const scanParams: filter = {
+      TableName: this.tableName,
+    };
+
+    scanParams.FilterExpression = 'contains(email, :email)';
+    scanParams.ExpressionAttributeValues = {
+      ':email': input.email,
+    };
+
+    const entities = await this.getConnection().scan(scanParams).promise();
+    const result = entities?.Items;
+
+    if (!result || !result[0]) {
+      throw new NotFoundException();
+    }
+
+    return CustomerMapper.ToDomain(result[0]);
   }
 
   async create(

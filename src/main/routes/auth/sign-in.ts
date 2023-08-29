@@ -10,30 +10,30 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateCustomerController } from '../../../presentation/controllers/customers/create-customer';
-import { HttpCreateCustomerValidationBody } from '../../validations/http-create-customer-validation-body';
 import { HttpNoContentSchema } from '../../docs/schemas/http-created-schema';
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
-import { HttpCustomerBodySchema } from '../../docs/schemas/http-customer-body-schema';
+import { HttpSignInCustomerValidationBody } from '@/main/validations/http-sign-in-customer-validation-body';
+import { HttpSignInSchema } from '@/main/docs/schemas/http-sign-in-schema';
+import { SignInController } from '@/presentation/controllers/auth/sign-in';
 
-@ApiTags('Customers')
-@Controller('customers')
-export class CreateCustomerRouter {
-  constructor(private readonly controller: CreateCustomerController) {}
+@ApiTags('Auth')
+@Controller('auth')
+export class SignInRouter {
+  constructor(private readonly controller: SignInController) {}
 
-  @Post('/')
+  @Post('/sign-in')
   @ApiOperation({
-    summary: 'Criar um novo cliente',
+    summary: 'Logar cliente',
   })
   @ApiBody({
     description: 'Corpo da requisição',
-    type: HttpCustomerBodySchema,
+    type: HttpSignInSchema,
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Schema de retorno da criação de um novo cliente.',
+    description: 'Schema de retorno da criação de um novo token.',
     type: HttpNoContentSchema,
   })
   @ApiBadRequestResponse({
@@ -52,16 +52,13 @@ export class CreateCustomerRouter {
     type: InternalServerErrorSchema,
   })
   async create(
-    @Body() data: HttpCreateCustomerValidationBody,
+    @Body() data: HttpSignInCustomerValidationBody,
     @Res() response: Response,
   ) {
     return adaptNestRouter(this.controller)(
       {
-        first_name: data.first_name,
-        email: data.email,
-        phone: data.phone,
-        last_name: data.last_name,
         password: data.password,
+        email: data.email,
       },
       response,
     );

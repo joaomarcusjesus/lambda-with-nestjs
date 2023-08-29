@@ -6,6 +6,7 @@ import {
   ListCustomerRepository,
   UpdateCustomerRepository,
 } from '@/use-cases/contracts/repository';
+import { FindByEmailCustomerRepository } from '@/use-cases/contracts/repository/find-by-email-customer-repository';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -33,6 +34,10 @@ import { Module } from '@nestjs/common';
       provide: UpdateCustomerRepository,
       useClass: DynamodbCustomerRepository,
     },
+    {
+      provide: FindByEmailCustomerRepository,
+      useClass: DynamodbCustomerRepository,
+    },
   ],
   exports: [
     ListCustomerRepository,
@@ -40,6 +45,7 @@ import { Module } from '@nestjs/common';
     CreateCustomerRepository,
     DeleteCustomerRepository,
     UpdateCustomerRepository,
+    FindByEmailCustomerRepository,
   ],
 })
 export class CustomerRepositoryModule {}

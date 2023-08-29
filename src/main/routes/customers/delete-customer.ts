@@ -1,11 +1,13 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Controller, Delete, Param, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Delete, Param, Res, HttpStatus, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -13,9 +15,12 @@ import { DeleteCustomerController } from '@/presentation/controllers/customers/d
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
+import { JwtInterceptor } from '../../../infra/jwt/interceptor';
 
 @ApiTags('Customers')
 @Controller('customers')
+@UseGuards(JwtInterceptor)
+@ApiBearerAuth()
 export class DeleteCustomerRouter {
   constructor(private readonly controller: DeleteCustomerController) {}
 
@@ -41,7 +46,14 @@ export class DeleteCustomerRouter {
     description: 'Internal server error.',
     type: InternalServerErrorSchema,
   })
-  async delete(@Param('id') uuid: number, @Res() response: Response) {
+  @ApiParam({
+    name: 'id',
+    required: true,
+    type: 'string',
+    description: 'Cliente id',
+    example: 'uuid',
+  })
+  async delete(@Param('id') uuid: string, @Res() response: Response) {
     return adaptNestRouter(this.controller)(
       {
         uuid: uuid,

@@ -1,1 +1,0 @@
-{"version":3,"file":"create-customer.js","sourceRoot":"","sources":["../../../../../test/mocks/http/customers/create-customer.ts"],"names":[],"mappings":";;;AAAO,MAAM,gBAAgB,GAAG,GAAG,EAAE,CAAC,CAAC;IACrC,UAAU,EAAE,MAAM;IAClB,SAAS,EAAE,KAAK;IAChB,KAAK,EAAE,mBAAmB;IAC1B,KAAK,EAAE,eAAe;CACvB,CAAC,CAAC;AALU,QAAA,gBAAgB,oBAK1B"}

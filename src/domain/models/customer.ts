@@ -4,6 +4,7 @@ type CustomerData = {
   last_name: string;
   email: string;
   phone: string;
+  password?: string;
 };
 
 export class Customer {
@@ -12,6 +13,7 @@ export class Customer {
   public last_name: string;
   public email: string;
   public phone: string;
+  public password?: string;
 
   constructor(data: CustomerData) {
     this.uuid = data.uuid;
@@ -19,5 +21,6 @@ export class Customer {
     this.last_name = data.last_name;
     this.email = data.email;
     this.phone = data.phone;
+    this.password = data.password;
   }
 }

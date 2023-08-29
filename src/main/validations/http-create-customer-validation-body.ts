@@ -12,4 +12,7 @@ export class HttpCreateCustomerValidationBody {
 
   @IsNotEmpty()
   phone: string;
+
+  @IsNotEmpty()
+  password: string;
 }

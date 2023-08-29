@@ -1,5 +1,5 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { FindCustomerController } from '@/presentation/controllers/customers/find-customer';
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
@@ -7,18 +7,21 @@ import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
 import {
   ApiBadRequestResponse,
-  ApiBody,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiResponse,
   ApiTags,
   ApiParam,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { HttpCustomerFindSchema } from '@/main/docs/schemas/http-customer-find-schema';
+import { JwtInterceptor } from '../../../infra/jwt/interceptor';
 
 @ApiTags('Customers')
 @Controller('customers')
+@UseGuards(JwtInterceptor)
+@ApiBearerAuth()
 export class FindCustomerRouter {
   constructor(private readonly controller: FindCustomerController) {}
 
@@ -49,11 +52,11 @@ export class FindCustomerRouter {
   @ApiParam({
     name: 'id',
     required: true,
-    type: 'number',
+    type: 'string',
     description: 'Cliente id',
-    example: 1,
+    example: 'uuid',
   })
-  async find(@Param('id') uuid: number, @Res() response: Response) {
+  async find(@Param('id') uuid: string, @Res() response: Response) {
     return adaptNestRouter(this.controller)(
       {
         uuid: uuid,

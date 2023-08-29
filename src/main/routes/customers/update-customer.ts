@@ -1,8 +1,19 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Body, Controller, Get, Param, Post, Put, Res, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Res,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -17,9 +28,12 @@ import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { HttpNoContentSchema } from '../../docs/schemas/http-created-schema';
 import { HttpCustomerBodySchema } from '../../docs/schemas/http-customer-body-schema';
+import { JwtInterceptor } from '../../../infra/jwt/interceptor';
 
 @ApiTags('Customers')
 @Controller('customers')
+@UseGuards(JwtInterceptor)
+@ApiBearerAuth()
 export class UpdateCustomerRouter {
   constructor(private readonly controller: UpdateCustomerController) {}
 
@@ -54,11 +68,11 @@ export class UpdateCustomerRouter {
   @ApiParam({
     name: 'id',
     required: true,
-    type: 'number',
+    type: 'string',
     description: 'Cliente id',
-    example: 1,
+    example: 'uuid',
   })
-  async update(@Param('id') uuid: number, @Body() data, @Res() response: Response) {
+  async update(@Param('id') uuid: string, @Body() data, @Res() response: Response) {
     return adaptNestRouter(this.controller)(
       {
         first_name: data.first_name,

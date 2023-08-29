@@ -3,6 +3,7 @@
 /node_modules
 .vscode
 docker-compose.yml
+.build/
 
 # Logs
 logs

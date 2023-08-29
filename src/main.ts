@@ -16,6 +16,14 @@ async function bootstrap() {
     .setTitle('Lambda - customers')
     .setDescription('the api is consumed by other services and by the client itself')
     .setVersion('1.0')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT', // Specify the format of the token (optional)
+      in: 'header', // Specify where the token should be included ('header' or 'query')
+      name: 'Authorization', // Name of the header or query parameter
+      description: 'Enter your JWT token',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

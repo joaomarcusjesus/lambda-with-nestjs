@@ -1,9 +1,10 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
 import { ListCustomerController } from '@/presentation/controllers/customers/list-customer';
-import { Controller, Get, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
@@ -14,9 +15,12 @@ import { HttpCustomerListSchema } from '../../docs/schemas/http-customer-list-sc
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
+import { JwtInterceptor } from '../../../infra/jwt/interceptor';
 
 @ApiTags('Customers')
 @Controller('customers')
+@UseGuards(JwtInterceptor)
+@ApiBearerAuth()
 export class ListCustomerRouter {
   constructor(private readonly controller: ListCustomerController) {}
 
