@@ -15,6 +15,11 @@ provider:
         - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - lambda:CreateFunction
+        - lambda:UpdateFunctionCode
+        - lambda:UpdateFunctionConfiguration
+        - lambda:InvokeFunction
+        - lambda:DeleteFunction
       Resource: "*"
 
 plugins:
