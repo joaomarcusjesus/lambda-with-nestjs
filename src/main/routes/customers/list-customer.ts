@@ -1,6 +1,6 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
 import { ListCustomerController } from '@/presentation/controllers/customers/list-customer';
-import { Controller, Get, Res, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, UseGuards, Query } from '@nestjs/common';
 import { Response } from 'express';
 import {
   ApiBadRequestResponse,
@@ -8,6 +8,7 @@ import {
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOperation,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -48,7 +49,27 @@ export class ListCustomerRouter {
     description: 'Internal server error.',
     type: InternalServerErrorSchema,
   })
-  async list(@Res() response: Response) {
-    return adaptNestRouter(this.controller)({}, response);
+  @ApiQuery({
+    name: 'search',
+    type: 'object',
+    description: 'Query params para a listagem de clientes',
+    schema: {
+      type: 'object',
+      properties: {
+        search: {
+          type: 'object',
+          properties: {
+            search: {
+              type: 'string',
+              description: 'Campo de busca',
+              example: 'paçoca',
+            },
+          },
+        },
+      },
+    },
+  })
+  async list(@Query() query: { search?: string }, @Res() response: Response) {
+    return adaptNestRouter(this.controller)({ search: query?.search }, response);
   }
 }
