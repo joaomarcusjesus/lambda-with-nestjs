@@ -23,8 +23,8 @@ provider:
       Resource: "*"
 
 plugins:
-  # - serverless-offline
-  # - serverless-plugin-optimize
+  - serverless-offline
+  - serverless-plugin-optimize
 
 resources:
   Resources:
