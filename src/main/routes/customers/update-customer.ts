@@ -2,9 +2,7 @@ import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
 import {
   Body,
   Controller,
-  Get,
   Param,
-  Post,
   Put,
   Res,
   HttpStatus,

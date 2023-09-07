@@ -17,7 +17,6 @@ import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
 import { HttpCustomerBodySchema } from '../../docs/schemas/http-customer-body-schema';
-import { request } from 'http';
 
 @ApiTags('Customers')
 @Controller('customers')

@@ -1,4 +1,3 @@
-import { JwtModule } from '@/infra/jwt/jwt.module';
 import { SignInRouter } from '@/main/routes/auth/sign-in';
 import { SignInController } from '@/presentation/controllers/auth/sign-in';
 import { SignIn } from '@/use-cases/auth/sign-in';
