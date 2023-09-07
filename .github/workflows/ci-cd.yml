@@ -44,7 +44,7 @@ jobs:
       run: npm install -g serverless && npm config set prefix /usr/local && npm install serverless-offline -g && npm install --save-dev
 
     - name: Deploy using Serverless Framework
-      run: npx serverless deploy --stage production
+      run: npx serverless deploy
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
