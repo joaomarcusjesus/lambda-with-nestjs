@@ -9,8 +9,9 @@ import {
   Res,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -72,7 +73,12 @@ export class UpdateCustomerRouter {
     description: 'Cliente id',
     example: 'uuid',
   })
-  async update(@Param('id') uuid: string, @Body() data, @Res() response: Response) {
+  async update(
+    @Param('id') uuid: string,
+    @Body() data,
+    @Res() response: Response,
+    @Req() request: Request,
+  ) {
     return adaptNestRouter(this.controller)(
       {
         first_name: data.first_name,
@@ -82,6 +88,7 @@ export class UpdateCustomerRouter {
         uuid,
       },
       response,
+      request,
     );
   }
 }

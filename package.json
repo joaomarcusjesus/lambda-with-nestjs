@@ -25,6 +25,7 @@
     "@aws-sdk/client-cloudwatch-logs": "^3.168.0",
     "@aws-sdk/client-dynamodb": "^3.398.0",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^3.0.1",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^10.1.0",
     "@nestjs/passport": "^10.0.1",

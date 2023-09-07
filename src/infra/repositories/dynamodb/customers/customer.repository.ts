@@ -8,10 +8,10 @@ import { ListCustomerRepository } from '../../../../use-cases/contracts/reposito
 import { CustomerMapper } from '../mappers/customer.mapper';
 import { PersistError } from '../helpers/errors';
 import { v4 as uuidv4 } from 'uuid';
-import { CustomerEntity } from '../entities/customer.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DynamoDbRepository } from '../helpers/repository';
 import { FindByEmailCustomerRepository } from '@/use-cases/contracts/repository/find-by-email-customer-repository';
+import { CustomerEntity } from '../entities/customer.entity';
 
 @Injectable()
 export class DynamodbCustomerRepository
@@ -75,7 +75,7 @@ export class DynamodbCustomerRepository
       throw new NotFoundException();
     }
 
-    return CustomerMapper.ToDomain(result?.Item);
+    return CustomerMapper.ToDomain(result?.Item as CustomerEntity);
   }
 
   async findByEmail(
@@ -103,7 +103,7 @@ export class DynamodbCustomerRepository
       throw new NotFoundException();
     }
 
-    return CustomerMapper.ToDomain(result[0]);
+    return CustomerMapper.ToDomain(result[0] as CustomerEntity);
   }
 
   async create(

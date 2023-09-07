@@ -1,6 +1,6 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Controller, Get, HttpStatus, Param, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, HttpStatus, Param, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { FindCustomerController } from '@/presentation/controllers/customers/find-customer';
 import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
@@ -56,12 +56,17 @@ export class FindCustomerRouter {
     description: 'Cliente id',
     example: 'uuid',
   })
-  async find(@Param('id') uuid: string, @Res() response: Response) {
+  async find(
+    @Param('id') uuid: string,
+    @Res() response: Response,
+    @Req() request: Request,
+  ) {
     return adaptNestRouter(this.controller)(
       {
         uuid: uuid,
       },
       response,
+      request,
     );
   }
 }

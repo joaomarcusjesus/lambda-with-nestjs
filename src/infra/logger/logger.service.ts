@@ -1,35 +1,38 @@
 import { Logger } from '@nestjs/common';
-import { Logger as AbstractLogger } from '@/presentation/contracts/logger';
 import { WinstonService } from './winston.service';
 
-export class LoggerService implements AbstractLogger {
-  constructor(private readonly logOnWinston: WinstonService) {}
-
-  error(message: string): void {
-    Logger.error(message);
-    this.logOnWinston.error('Error', message);
+export class LoggerService {
+  private static logOnWinston(
+    context: string,
+    method: Exclude<keyof WinstonService, 'logger'>,
+    params: any,
+  ) {
+    if (process.env.NODE_ENV !== 'local' && process.env.NODE_ENV !== 'test')
+      new WinstonService(context)[method](params);
   }
 
-  log(message: any) {
+  static error(context: string, error: any) {
+    Logger.error(error);
+    this.logOnWinston(context, 'error', error);
+  }
+
+  static log(context: string, message: any) {
     Logger.log(message);
-    this.logOnWinston.log(message);
+    this.logOnWinston(context, 'log', message);
   }
 
-  warn(message: any) {
+  static warn(context: string, message: any) {
     Logger.warn(message);
-    this.logOnWinston.warn(message);
+    this.logOnWinston(context, 'warn', message);
   }
 
-  info(text: any, params?: any): void {
+  static info(context: string, text: any, params?: any): void {
     Logger.verbose(text);
-    this.logOnWinston.log({
-      message: text,
-      additionalInfo: params,
-    });
+    this.logOnWinston(context, 'log', { message: text, additionalInfo: params });
   }
 
-  debug(text: any): void {
+  static debug(context: string, text: any): void {
     Logger.debug(text);
-    this.logOnWinston.log(text);
+    this.logOnWinston(context, 'log', text);
   }
 }

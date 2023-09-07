@@ -6,7 +6,7 @@ import { env } from 'process';
 @Injectable()
 export class WinstonService implements LoggerService {
   logger: Logger;
-  constructor() {
+  constructor(context: string) {
     this.logger = createLogger({
       format: format.combine(format.timestamp({ format: 'isoDateTime' }), format.json()),
       transports: [
@@ -16,7 +16,7 @@ export class WinstonService implements LoggerService {
           awsSecretKey: env.AWS_SECRET_ACCESS_KEY,
           awsRegion: env.AWS_CLOUDWATCH_REGION,
           logGroupName: env.AWS_CLOUDWATCH_LOG_GROUP_NAME,
-          logStreamName: 'lambda-customers-api',
+          logStreamName: context,
           messageFormatter: ({ level, message, additionalInfo }) =>
             this.messageFormatter({ level, message, additionalInfo }),
         }),
@@ -25,6 +25,9 @@ export class WinstonService implements LoggerService {
   }
 
   log({ level = 'info', message = 'No message.', additionalInfo = null }) {
+    const forbiddenRoutes = ['login', 'documentoAnexoCirurgico'];
+    if (forbiddenRoutes.some((route) => message.indexOf(route) !== -1))
+      additionalInfo = null;
     this.logger.log(level, message, { additionalInfo });
   }
 

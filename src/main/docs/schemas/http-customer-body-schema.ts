@@ -28,4 +28,10 @@ export class HttpCustomerBodySchema {
     example: '5583993951425',
   })
   phone: string;
+
+  @ApiProperty({
+    type: 'string',
+    description: 'Senha do cliente',
+  })
+  password: string;
 }

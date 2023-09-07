@@ -4,7 +4,7 @@ type CustomerData = {
   last_name: string;
   email: string;
   phone: string;
-  password?: string;
+  password: string;
 };
 
 export class Customer {
@@ -13,7 +13,7 @@ export class Customer {
   public last_name: string;
   public email: string;
   public phone: string;
-  public password?: string;
+  public password: string;
 
   constructor(data: CustomerData) {
     this.uuid = data.uuid;

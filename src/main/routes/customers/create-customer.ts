@@ -1,6 +1,6 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -17,6 +17,7 @@ import { BadRequestErrorSchema } from '../../docs/components/bad-request-error';
 import { NotFoundErrorSchema } from '../../docs/components/not-found-error';
 import { InternalServerErrorSchema } from '../../docs/components/internal-server-error';
 import { HttpCustomerBodySchema } from '../../docs/schemas/http-customer-body-schema';
+import { request } from 'http';
 
 @ApiTags('Customers')
 @Controller('customers')
@@ -54,6 +55,7 @@ export class CreateCustomerRouter {
   async create(
     @Body() data: HttpCreateCustomerValidationBody,
     @Res() response: Response,
+    @Req() request: Request,
   ) {
     return adaptNestRouter(this.controller)(
       {
@@ -64,6 +66,7 @@ export class CreateCustomerRouter {
         password: data.password,
       },
       response,
+      request,
     );
   }
 }

@@ -1,6 +1,14 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
-import { Controller, Delete, Param, Res, HttpStatus, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  Controller,
+  Delete,
+  Param,
+  Res,
+  HttpStatus,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -53,12 +61,17 @@ export class DeleteCustomerRouter {
     description: 'Cliente id',
     example: 'uuid',
   })
-  async delete(@Param('id') uuid: string, @Res() response: Response) {
+  async delete(
+    @Param('id') uuid: string,
+    @Res() response: Response,
+    @Req() request: Request,
+  ) {
     return adaptNestRouter(this.controller)(
       {
         uuid: uuid,
       },
       response,
+      request,
     );
   }
 }

@@ -1,7 +1,7 @@
 import { adaptNestRouter } from '@/main/adapters/nest-router-adapter';
 import { ListCustomerController } from '@/presentation/controllers/customers/list-customer';
-import { Controller, Get, Res, HttpStatus, UseGuards, Query } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Res, HttpStatus, UseGuards, Query, Req } from '@nestjs/common';
+import { Request, Response } from 'express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -54,22 +54,17 @@ export class ListCustomerRouter {
     type: 'object',
     description: 'Query params para a listagem de clientes',
     schema: {
-      type: 'object',
-      properties: {
-        search: {
-          type: 'object',
-          properties: {
-            search: {
-              type: 'string',
-              description: 'Campo de busca',
-              example: 'paçoca',
-            },
-          },
-        },
-      },
+      type: 'string',
+      description: 'Campo de busca',
+      example: 'paçoca',
     },
+    required: false,
   })
-  async list(@Query() query: { search?: string }, @Res() response: Response) {
-    return adaptNestRouter(this.controller)({ search: query?.search }, response);
+  async list(
+    @Query() query: { search?: string },
+    @Res() response: Response,
+    @Req() request: Request,
+  ) {
+    return adaptNestRouter(this.controller)({ search: query?.search }, response, request);
   }
 }
