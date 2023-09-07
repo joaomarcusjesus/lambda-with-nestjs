@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CredentialGateway } from '../contracts/gateway/credential-gateway';
 import { FindByEmailCustomerRepository } from '../contracts/repository/find-by-email-customer-repository';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { Credential } from '@/domain/models/credential';
 
 export type SignInInput = {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCustomerRepository } from '../contracts/repository/create-customer-repository';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 export type CreateCustomerInput = {
   first_name: string;

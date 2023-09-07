@@ -4,18 +4,28 @@ frameworkVersion: "3"
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs16.x
   region: us-east-1
   environment:
-    CUSTOMER_TABLE: 'customers'
+    CUSTOMER_TABLE: ${self:service}-customers-${sls:stage}
   iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-      Resource: "*"
+  - Effect: Allow
+    Action:
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+      - lambda:InvokeFunction
+      - lambda:InvokeFunctionConfiguration
+      - lambda:UpdateFunctionConfiguration
+      - lambda:CreateFunction
+      - lambda:UpdateFunctionCode
+      - lambda:GetFunction
+
+    Resource: "*"
 
 plugins:
   - serverless-offline
@@ -50,3 +60,6 @@ functions:
       - http:
           method: ANY
           path: '{proxy+}'
+
+configValidationMode: error
+
